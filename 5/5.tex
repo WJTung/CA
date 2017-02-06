@@ -1,0 +1,134 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\setCJKmainfont{微軟正黑體}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\date{}
+\title{\vspace{-3.0cm} 計算機結構 \hspace{0cm} Exercise 05 \\ \vspace{0cm}}
+\author{\normalsize B03902062 \hspace{0cm} 資工三 \hspace{0cm} 董文捷}
+\begin{document}
+\maketitle
+\begin{itemize}[font=\bfseries]
+
+\item[5.13.1]
+\begin{tabular}[t]{|c|c|c|cc|cc|} 
+\hline
+address & hit / miss & evicted block & Set 0 &  & Set 1 & \\
+\hline
+0 & miss & & \textcolor{red}{Mem[0]} & & & \\
+\hline
+2 & miss & & Mem[0] & \textcolor{red}{Mem[2]} & & \\
+\hline
+4 & miss & 0 & \textcolor{red}{Mem[4]} & Mem[2] & & \\
+\hline
+8 & miss & 2 & Mem[4] & \textcolor{red}{Mem[8]} & & \\
+\hline
+10 & miss & 4 & \textcolor{red}{Mem[10]} & Mem[8] & & \\
+\hline
+12 & miss & 8 & Mem[10] & \textcolor{red}{Mem[12]} & & \\
+\hline
+14 & miss & 10 & \textcolor{red}{Mem[14]} & Mem[12] & & \\
+\hline
+16 & miss & 12 & Mem[14] & \textcolor{red}{Mem[16]} & & \\
+\hline
+0 & miss & 14 & \textcolor{red}{Mem[0]} & Mem[16] & & \\
+\hline
+\end{tabular} \\
+\vspace*{0.2cm} \\
+\textcolor{blue}{0} hit
+
+\item[5.13.2]
+\begin{tabular}[t]{|c|c|c|cc|cc|} 
+\hline
+address & hit / miss & evicted block & Set 0 &  & Set 1 & \\
+\hline
+0 & miss & & \textcolor{red}{Mem[0]} & & & \\
+\hline
+2 & miss & & Mem[0] & \textcolor{red}{Mem[2]} & & \\
+\hline
+4 & miss & 2 & Mem[0] & \textcolor{red}{Mem[4]} & & \\
+\hline
+8 & miss & 4 & Mem[0] & \textcolor{red}{Mem[8]} & & \\
+\hline
+10 & miss & 8 & Mem[0] & \textcolor{red}{Mem[10]} & & \\
+\hline
+12 & miss & 10 & Mem[0] & \textcolor{red}{Mem[12]} & & \\
+\hline
+14 & miss & 12 & Mem[0] & \textcolor{red}{Mem[14]} & & \\
+\hline
+16 & miss & 14 & Mem[0] & \textcolor{red}{Mem[16]} & & \\
+\hline
+0 & hit & & Mem[0] & Mem[16] & & \\
+\hline
+\end{tabular} \\
+\vspace*{0.2cm} \\
+\textcolor{blue}{1} hit
+
+\item[5.13.3]
+\scalebox{0.9}{
+\begin{tabular}[t]{|c|c|c|c|cc|cc|} 
+\hline
+address & hit / miss & flipping coin result & evicted block & Set 0 &  & Set 1 & \\
+\hline
+0 & miss & & & \textcolor{red}{Mem[0]} & & & \\
+\hline
+2 & miss & & & Mem[0] & \textcolor{red}{Mem[2]} & & \\
+\hline
+4 & miss & tails & 2 & Mem[0] & \textcolor{red}{Mem[4]} & & \\
+\hline
+8 & miss & tails & 4 & Mem[0] & \textcolor{red}{Mem[8]} & & \\
+\hline
+10 & miss & heads & 0 & \textcolor{red}{Mem[10]} & Mem[8] & & \\
+\hline
+12 & miss & heads & 10 & \textcolor{red}{Mem[12]} & Mem[8] & & \\
+\hline
+14 & miss & heads & 12 & \textcolor{red}{Mem[14]} & Mem[8] & & \\
+\hline
+16 & miss & tails & 8 & Mem[14] & \textcolor{red}{Mem[16]} & & \\
+\hline
+16 & miss & tails & 16 & Mem[14] & \textcolor{red}{Mem[0]} & & \\
+\hline
+\end{tabular}} \\
+\vspace*{0.2cm} \\
+\textcolor{blue}{0} hit
+
+\item[5.13.4]
+The only address that is accessed twice in this address sequence is \texttt{0}. The optimal policy should keep \texttt{Mem[0]} in \texttt{Set 0} and replace the other block in the set when there is a miss. In this case, the optimal policy is the same as an MRU replacement policy, the address sequence exhibits \textcolor{blue}{1} hit by following this policy.
+
+\item[5.13.5]
+To implement a cache replacement policy that is optimal for all address sequences, we must know which address will be accessed in the future. However, the cache controller is not able to know the future, it can only make a prediction and the policy may not be optimal. 
+
+\item[5.13.6]
+If we are able to know which address will not be accessed in the future, we can decide not to cache it, some other address can be kept in the cache, and the miss rate may be improved. However, if we do not know the address sequence and decide not to cache an address which is accessed again soon, the miss rate may become worse.
+
+\item[5.15.1]
+$CPI = 1.5 + \displaystyle \frac{120}{10000} \times (15 + 175)$ = \textcolor{blue}{3.78} \\
+\vspace*{0.1cm} \\
+$CPI_{double} = 1.5 + \displaystyle \frac{120}{10000} \times (15 + 175 \times 2)$ = \textcolor{blue}{5.88} \\
+\vspace*{0.1cm} \\
+$CPI_{half} = 1.5 + \displaystyle \frac{120}{10000} \times (15 + 175 \times 0.5)$ = \textcolor{blue}{2.73} \\
+\vspace*{0.1cm} \\
+$(1.5 + \displaystyle \frac{120}{10000} \times (15 + 175)) \times 0.9 = 1.5 + \displaystyle \frac{120}{10000} \times (15 + penalty)$ \\ 
+\vspace*{0cm} \\
+$\longrightarrow$ longest possible penalty to trap to the VMM = \textcolor{blue}{143.5} 
+
+\item[5.15.2]
+non-virtualized : $CPI = 1.5 + \displaystyle \frac{30}{10000} \times 1100$ = \textcolor{blue}{4.8} \\
+virtualized : $CPI = 1.5 + \displaystyle \frac{120}{10000} \times (15 + 175) + \displaystyle \frac{30}{10000} \times (1100 + 175)$ = \textcolor{blue}{7.605} \\
+\vspace*{0.2cm} \\
+half the I/O accesses \\
+non-virtualized : $CPI = 1.5 + \displaystyle \frac{15}{10000} \times 1100$ = \textcolor{blue}{3.15} \\
+virtualized : $CPI = 1.5 + \displaystyle \frac{120}{10000} \times (15 + 175) + \displaystyle \frac{15}{10000} \times (1100 + 175)$ = \textcolor{blue}{5.6925} \\
+\vspace*{0.2cm} \\
+\newpage
+Compared to the I/O access time, performance impact to trap to the guest O/S and VMM is relatively small. Therefore, virtualization has a smaller percentage of impact on I/O bound applications.
+
+\end{itemize}
+\end{document}

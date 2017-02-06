@@ -1,0 +1,127 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\setCJKmainfont{微軟正黑體}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{array}
+\date{}
+\title{\vspace{-3.0cm} 計算機結構 \hspace{0cm} Exercise 02 \\ \vspace{0cm}}
+\author{\normalsize B03902062 \hspace{0cm} 資工三 \hspace{0cm} 董文捷}
+\begin{document}
+\maketitle
+\begin{itemize}[font=\bfseries]
+
+\item[2.27]
+\scalebox{0.87}{
+\begin{tabular}[t]{|l l >{\raggedright}m{1.1cm} >{\raggedright}m{1.1cm} >{\raggedright}m{1.1cm} l|}
+\hline
+ & \texttt{add} & {\$}t0, & {\$}zero, & {\$}zero & \# i = 0 \\
+L1 & \texttt{add} & {\$}t1, & {\$}zero, & {\$}zero & \# j = 0 \hspace{0.2cm} (restart 2nd for loop) \\
+L2 & \texttt{sll} & {\$}t2, & {\$}t1, & 4 & \# t2 = (4 * j) * 4 \hspace{0.2cm} (byte offset of [4 * j]) \\
+ & \texttt{add} & {\$}t3, & {\$}s2, & {\$}t2 & \# t3 = v + (4 * j) * 4 \hspace{0.2cm} (byte address of D[4 * j]) \\
+ & \texttt{add} & {\$}t4, & {\$}t0, & {\$}t1 & \# t4 = i + j \\
+ & \texttt{sw} & {\$}t4, & 0({\$}t3) & & \# D[4 * j] = i + j \\
+\hline
+ & \texttt{addi} & {\$}t1, & {\$}t1, & 1 & \# j = j + 1\\
+ & \texttt{slt} & {\$}t5, & {\$}t1, & {\$}s1 & \# if j < b\\
+ & \texttt{bne} & {\$}t5, & {\$}zero, & L2 & \# branch to L2\\
+\hline
+ & \texttt{addi} & {\$}t0, & {\$}t0, & 1 & \# i = i + 1\\
+ & \texttt{slt} & {\$}t5, & {\$}t0, & {\$}s0 & \# if i < a\\
+ & \texttt{bne} & {\$}t5, & {\$}zero, & L1 & \# branch to L1\\
+\hline
+\end{tabular}
+}
+
+\item[2.34]
+For function \texttt{f}, assume arguments a, b, c, d in {\$}a0, {\$}a1, {\$}a2, {\$}a3 and result in {\$}v0. For function \texttt{func}, assume arguments a, b in {\$}a0, {\$}a1 and result in {\$}v0. \\   
+\begin{tabular}[t]{|l l >{\raggedright}m{1.1cm} >{\raggedright}m{1.1cm} >{\raggedright}m{1.1cm} l|}
+\hline
+f & \texttt{addi} & {\$}sp, & {\$}sp, & -12 & \# adjust stack for 3 items \\
+ & \texttt{sw} & {\$}ra, & 8({\$}sp) & & \# save return address \\
+ & \texttt{sw} & {\$}a1, & 4({\$}sp) & & \# save argument 1 \\
+ & \texttt{sw} & {\$}a0, & 0({\$}sp) & & \# save argument 0 \\
+\hline
+ & \texttt{jal} & func & & & \# v0 = func(a, b) \\
+ & \texttt{add} & {\$}a0, & {\$}v0, & {\$}zero & \# a0 = func(a, b) \\
+ & \texttt{add} & {\$}a1, & {\$}a2, & {\$}a3 & \# a1 = c + d \\
+ & \texttt{jal} & func & & & \# v0 = func(func(a, b), c + d) \\
+\hline
+ & \texttt{lw} & {\$}a0, & 0({\$}sp) & & \# restore original argument 0 \\
+ & \texttt{lw} & {\$}a1, & 4({\$}sp) & & \# restore original argument 1 \\
+ & \texttt{lw} & {\$}ra, & 8({\$}sp) & & \# restore original return address \\
+ & \texttt{addi} & {\$}sp, & {\$}sp, & 12 & \# pop 3 items from stack \\
+ & \texttt{jr} & {\$}ra & & & \# return \\
+\hline
+\end{tabular}
+
+\newpage
+\item[2.46.1]
+Original clock cycles for the program \\ = $500 \times 10^6 \times 1 + 300 \times 10^6 \times 10 + 100 \times 10^6 \times 3$ = $3800 \times 10^6$ \\
+Total execution time = $3800 \times 10^6$ $\times$ original clock cycle time \\ 
+\vspace*{-0.3cm} \\
+New clock cycles for the program \\ = $500 \times 10^6 \times 75\% \times 1 + 300 \times 10^6 \times 10 + 100 \times 10^6 \times 3$ = $3675 \times 10^6$ \\
+Total execution time = $3675 \times 10^6$ $\times$ (original clock cycle time $\times 125\%$) \\ = $4593.75 \times 10^6$ $\times$ original clock cycle time\\ 
+\vspace*{-0.3cm} \\
+This is not a good design choice because execution time for arithmetic instructions is not the main part of total execution time. Although new design can make arithmetic part faster, increment on clock cycle time will cause other part become slower and thus result in a worse overall performance.
+
+\item[2.46.2]
+\begin{enumerate}
+\item
+New clock cycles for the program \\ = $(500 \times 10^6 \times 1) \times \frac{1}{2} + 300 \times 10^6 \times 10 + 100 \times 10^6 \times 3$ = $3550 \times 10^6$ \\
+Total execution time = $3550 \times 10^6$ $\times$ original clock cycle time \\ 
+$\frac{3800 \times 10^6}{3550 \times 10^6} = 1.0704$, overall speedup = $7.04\%$ 
+
+\item
+New clock cycles for the program \\ = $(500 \times 10^6 \times 1) \times \frac{1}{10} + 300 \times 10^6 \times 10 + 100 \times 10^6 \times 3$ = $3350 \times 10^6$ \\
+Total execution time = $3350 \times 10^6$ $\times$ original clock cycle time \\ 
+$\frac{3800 \times 10^6}{3350 \times 10^6} = 1.1343$, overall speedup = $13.43\%$ 
+\end{enumerate}
+
+\item[3.14]
+Hardware : Add multiplicand to product, then shift the multiplicand and the multiplier simultaneously $\rightarrow$ 8 time units per repetition \\ Total time = 8 time units $\times$ 8 repetitions = 64 time units. \\
+Software : Add multiplicand to product, then shift the multiplicand, finally shift the multiplier $\rightarrow$ 12 time units per repetition \\ Total time = 12 time units $\times$ 8 repetitions = 96 time units. \\
+
+\item[3.27]
+$-1.5625 \times 10^{-1} = (-1)^1 \times 1.01_2 \times 2^{-3}$ \\
+S = \texttt{1} \\
+Fraction = \texttt{0100000000} \\
+Exponent = $-3$ + Bias = $13$ = \texttt{01101} \\
+Therefore, $-1.5625 \times 10^{-1}$ can be represented as \texttt{1011010100000000}. \\
+\vspace*{-0.3cm} \\
+half-precision range : \\
+Exponent \texttt{00000} and \texttt{11111} reserved \\
+\newpage
+Smallest value \\
+\hspace*{0.5cm} Exponent : \texttt{00001} $\rightarrow$ actual exponent = $1 - 15$ = $-14$ \\
+\hspace*{0.5cm} Fraction : \texttt{000$\ldots$00} $\rightarrow$ significand = $1.0$ \\
+\hspace*{0.5cm} $\pm 1.0 \times 2^{-14} \approx \pm 6.1 \times 10^{-5}$ \\ 
+Largest value \\
+\hspace*{0.5cm} Exponent : \texttt{11110} $\rightarrow$ actual exponent = $30 - 15$ = $+15$ \\
+\hspace*{0.5cm} Fraction : \texttt{111$\ldots$11} $\rightarrow$ significand $\approx 2.0$ \\
+\hspace*{0.5cm} $\pm 2.0 \times 2^{+15} \approx \pm 6.6 \times 10^{+4}$ \\
+\vspace*{-0.3cm} \\ 
+single-precision range : \\
+Exponent \texttt{00000000} and \texttt{11111111} reserved \\
+Smallest value \\
+\hspace*{0.5cm} Exponent : \texttt{00000001} $\rightarrow$ actual exponent = $1 - 127$ = $-126$ \\
+\hspace*{0.5cm} Fraction : \texttt{000$\ldots$00} $\rightarrow$ significand = $1.0$ \\
+\hspace*{0.5cm} $\pm 1.0 \times 2^{-126} \approx \pm 1.2 \times 10^{-38}$ \\ 
+Largest value \\
+\hspace*{0.5cm} Exponent : \texttt{11111110} $\rightarrow$ actual exponent = $254 - 127$ = $+127$ \\
+\hspace*{0.5cm} Fraction : \texttt{111$\ldots$11} $\rightarrow$ significand $\approx 2.0$ \\
+\hspace*{0.5cm} $\pm 2.0 \times 2^{+127} \approx \pm 3.4 \times 10^{+38}$ \\
+\vspace*{-0.3cm} \\
+half-precision accuracy : \\
+$\approx 2^{-10}$, equivalent to $10 \times \log_{10} 2 \approx$ 3 decimal digits of precision \\
+\vspace*{-0.3cm} \\ 
+single-precision accuracy : \\
+$\approx 2^{-23}$, equivalent to $23 \times \log_{10} 2 \approx$ 7 decimal digits of precision \\
+
+\end{itemize}
+\end{document}

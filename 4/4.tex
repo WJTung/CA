@@ -1,0 +1,96 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\setCJKmainfont{微軟正黑體}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\date{}
+\title{\vspace{-3.0cm} 計算機結構 \hspace{0cm} Exercise 04 \\ \vspace{0cm}}
+\author{\normalsize B03902062 \hspace{0cm} 資工三 \hspace{0cm} 董文捷}
+\begin{document}
+\maketitle
+\begin{itemize}[font=\bfseries]
+
+\item[5.3.1] 5 bits are used for the offset, which means the cache block size is 32 byte = \textcolor{blue}{8} words
+
+\item[5.3.2] 5 bits are used for the index, which means the cache have \textcolor{blue}{32} entries.
+
+\item[5.3.3] $\displaystyle \frac{2^5 \times (2^5 \times 8 \makebox{ } (block\makebox{ }size) + 22 \makebox{ } (tag\makebox{ }size) + 1 \makebox{ } (valid\makebox{ }field\makebox{ }size))}{2^5 \times (2^5 \times 8)} = \textcolor{blue}{1.090}$
+
+\item[5.3.4]
+\begin{tabular}[t]{|c|c|c|c|} 
+\hline
+byte address & block address & block number & hit / miss \\
+\hline
+0 & $\lfloor 0 / 32 \rfloor$ = 0 & 0 mod 32 = 0 & miss \\
+\hline
+4 & $\lfloor 4 / 32 \rfloor$ = 0 & 0 mod 32 = 0 & hit \\
+\hline
+16 & $\lfloor 16 / 32 \rfloor$ = 0 & 0 mod 32 = 0 & hit \\
+\hline
+132 & $\lfloor 132 / 32 \rfloor$ = 4 & 4 mod 32 = 4 & miss \\
+\hline
+232 & $\lfloor 232 / 32 \rfloor$ = 7 & 7 mod 32 = 7 & miss \\
+\hline
+160 & $\lfloor 160 / 32 \rfloor$ = 5 & 5 mod 32 = 5 & miss \\
+\hline
+1024 & $\lfloor 1024 / 32 \rfloor$ = 32 & 32 mod 32 = 0 & miss (0 $\rightarrow$ 32) \\
+\hline
+30 & $\lfloor 30 / 32 \rfloor$ = 0 & 0 mod 32 = 0 & miss (32 $\rightarrow$ 0) \\
+\hline
+140 & $\lfloor 140 / 32 \rfloor$ = 4 & 4 mod 32 = 4 & hit \\
+\hline
+3100 & $\lfloor 3100 / 32 \rfloor$ = 96 & 96 mod 32 = 0 & miss (0 $\rightarrow$ 96)\\
+\hline
+180 & $\lfloor 180 / 32 \rfloor$ = 5 & 5 mod 32 = 5 & hit \\
+\hline
+2180 & $\lfloor 2180 / 32 \rfloor$ = 68 & 68 mod 32 = 4 & miss (4 $\rightarrow$ 68)\\
+\hline
+\end{tabular} \\
+\vspace*{0.2cm} \\
+\textcolor{blue}{4} replacement
+
+\item[5.3.5] Hit ratio = $\displaystyle \frac{4}{12}$ = \textcolor{blue}{0.33}
+
+\item[5.3.6]
+<index, tag, data> \\
+<$00000_2$, $0000\cdots0011_2$ (22 bits), mem[3072]> \\
+<$00100_2$, $0000\cdots0010_2$ (22 bits), mem[2176]> \\
+<$00101_2$, $0000\cdots0000_2$ (22 bits), mem[160]> \\
+<$00111_2$, $0000\cdots0000_2$ (22 bits), mem[224]> 
+
+\item[5.6.1]
+\textbf{P1} : $\displaystyle \frac{1}{0.66 ns}$ = \textcolor{blue}{1.52} GHz \\
+\textbf{P2} : $\displaystyle \frac{1}{0.90 ns}$ = \textcolor{blue}{1.11} GHz
+
+\item[5.6.2]
+\textbf{P1} : 0.66 ns + 8\% $\times$ 70 ns = \textcolor{blue}{6.26} ns \\
+\textbf{P2} : 0.90 ns + 6\% $\times$ 70 ns = \textcolor{blue}{5.1} ns 
+
+\item[5.6.3]
+\textbf{P1} : $\displaystyle 1.0 + 36\% \times 8\% \times \frac{70}{0.66}$ = \textcolor{blue}{4.05} $\rightarrow$ 2.68 ns per instruction \\
+\textbf{P2} : $\displaystyle 1.0 + 36\% \times 6\% \times \frac{70}{0.90}$ = \textcolor{blue}{2.68} $\rightarrow$ 2.41 ns per instruction \\ 
+$\longrightarrow$ \textcolor{blue}{\textbf{P2}} is faster
+
+\item[5.6.4]
+AMAT = 0.66 ns + 8\% $\times$ 5.62 ns + 8\% $\times$ 95\% $\times$ 70 ns = \textcolor{blue}{6.43} ns \\ $\longrightarrow$ \textcolor{blue}{worse} 
+
+\item[5.6.5]
+$\displaystyle 1 + 36\% \times 8\% \times \frac{5.62}{0.66} + 36\% \times 8\% \times 95\% \times \frac{70}{0.66}$ = \textcolor{blue}{4.15}
+
+\item[5.6.6]
+\textbf{P1} : 2.74 ns per instruction \\
+\textbf{P2} : 2.41 ns per instruction \\
+$\longrightarrow$ \textcolor{blue}{\textbf{P2}} is faster \\
+\vspace*{-0.3cm} \\
+$\displaystyle 0.66 + 36\% \times \text{miss rate} \times 5.62 + 36\% \times \text{miss rate} \times 95\% \times 70$ \\ = $\displaystyle 0.90 + 36\% \times 6\% \times 70$ \\
+$\longrightarrow$ \textbf{P1} needs miss rate in its L1 cache to be \textcolor{blue}{6.75\%} to match \textbf{P2}'s performance
+
+\end{itemize}
+\end{document}

@@ -1,0 +1,170 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\setCJKmainfont{微軟正黑體}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+\usepackage{enumerate}
+\usepackage{graphicx}
+\date{}
+\title{\vspace{-3.0cm} 計算機結構 \hspace{0cm} Exercise 01 \\ \vspace{0cm}}
+\author{\normalsize B03902062 \hspace{0cm} 資工三 \hspace{0cm} 董文捷}
+\begin{document}
+\maketitle
+\begin{itemize}[font=\bfseries]
+
+\item[1.5]
+\begin{enumerate}[a.]
+
+\item
+$Instructions\mbox{ }per\mbox{ }second = \frac{Clock\mbox{ }Rate}{CPI}$ \\
+{\bf P1} \hspace{0.2cm} $\frac{3 \times 10^9}{1.5} = 2 \times 10^9\mbox{ }(instructions\mbox{ }per\mbox{ }second)$ \\
+{\bf P2} \hspace{0.2cm} $\frac{2.5 \times 10^9}{1.0} = 2.5 \times 10^9\mbox{ }(instructions\mbox{ }per\mbox{ }second)$ \\
+{\bf P3} \hspace{0.2cm} $\frac{4.0 \times 10^9}{2.2} = 1.82 \times 10^9\mbox{ }(instructions\mbox{ }per\mbox{ }second)$ \\
+\\
+Therefore, {\bf P2} has the highest performance expressed in instructions per second.
+
+\item
+$number\mbox{ }of\mbox{ }cycles = Clock\mbox{ }Rate \times CPU\mbox{ }Time$ \\ 
+$number\mbox{ }of\mbox{ }instructions = \frac{Clock\mbox{ }Rate \times CPU\mbox{ }Time}{CPI}$ 
+
+{\bf P1}
+\begin{itemize}
+\item $number\mbox{ }of\mbox{ }cycles = (3 \times 10^9) \times 10 = 3 \times 10^{10}$
+\item $number\mbox{ }of\mbox{ }instructions = \frac{(3 \times 10^9) \times 10}{1.5} = 2 \times 10^{10}$
+\end{itemize}
+
+{\bf P2}
+\begin{itemize}
+\item $number\mbox{ }of\mbox{ }cycles = (2.5 \times 10^9) \times 10 = 2.5 \times 10^{10}$
+\item $number\mbox{ }of\mbox{ }instructions = \frac{(2.5 \times 10^9) \times 10}{1.0} = 2.5 \times 10^{10}$
+\end{itemize}
+
+{\bf P3}
+\begin{itemize}
+\item $number\mbox{ }of\mbox{ }cycles = (4.0 \times 10^9) \times 10 = 4.0 \times 10^{10}$
+\item $number\mbox{ }of\mbox{ }instructions = \frac{(4.0 \times 10^9) \times 10}{2.2} = 1.82 \times 10^{10}$
+\end{itemize}
+
+\item
+$CPU\mbox{ }Time = \frac{Instruction\mbox{ }Count \times CPI}{Clock\mbox{ }Rate}$ \\
+When instruction count is fixed, $CPU\mbox{ }Time \propto \frac{CPI}{Clock\mbox{ }Rate}$ 
+If CPI increases by $20\%$, and we want CPU time to reduce by $30\%$, clock rate should become $\frac{1.2}{0.7} = 1.714$ times. That is to say, clock rate should increase by $71.4\%$.
+
+\end{enumerate} 
+
+\item[1.8.1]
+$Dynamic\mbox{ }Power\mbox{ }Consumption = Capacitive\mbox{ }load \times Voltage^2 \times Frequency$
+{\bf Prescott} \hspace{0.2cm} $Capacitive\mbox{ }load = \frac{90}{1.25^2 \times (\frac{1}{2} \times 3.6 \times 10^9)} = 3.2 \times 10^{-8}\mbox{ }(F)$ \\
+{\bf Ivy Bridge} \hspace{0.2cm} $Capacitive\mbox{ }load = \frac{40}{0.9^2 \times (\frac{1}{2} \times 3.4 \times 10^9)} = 2.905 \times 10^{-8}\mbox{ }(F)$ \\
+
+\item[1.8.2] 
+
+{\bf Prescott}
+\begin{itemize}
+\item $Percentage$ \hspace{0.2cm} $\frac{10}{10 + 90} \times 100\% = 10\%$
+\item $Ratio$ \hspace{0.2cm} $\frac{10}{90} = 0.1111$ 
+\end{itemize}
+
+{\bf Ivy Bridge}
+\begin{itemize}
+\item $Percentage$ \hspace{0.2cm} $\frac{30}{30 + 40} \times 100\% = 42.86\%$
+\item $Ratio$ \hspace{0.2cm} $\frac{30}{40} = 0.75$ 
+\end{itemize}
+
+\item[1.8.3]
+$Static\mbox{ }Power\mbox{ }Consumption = V \times I_{leakage}$ \\
+{\bf Prescott} \\
+$I_{leakage} = \frac{10}{1.25} = 8$ \\
+To maintain the same leakage current and reduce the total dissipated power by 10\%, the new equation becomes \\
+$(10 + 90) \times 90\% = V \times 8 + 3.2 \times 10^{-8} \times V^2 \times (\frac{1}{2} \times 3.6 \times 10^9)$ \\
+Solve the equation to get $V = 1.1825, -1.3214$. Therefore, the voltage should be reduced to $1.1825 V$.
+\\
+{\bf Ivy Bridge}
+$I_{leakage} = \frac{30}{0.9} = 33.33$ \\
+To maintain the same leakage current and reduce the total dissipated power by 10\%, the new equation becomes \\
+$(30 + 40) \times 90\% = V \times 33.33 + 2.905 \times 10^{-8} \times V^2 \times (\frac{1}{2} \times 3.4 \times 10^9)$ \\
+Solve the equation to get $V = 0.8413, -1.5163$. Therefore, the voltage should be reduced to $0.8413 V$.
+
+\item[1.12.1]
+$CPU\mbox{ }Time = \frac{Instruction\mbox{ }Count \times CPI}{Clock\mbox{ }Rate}$ \\
+{\bf P1} \hspace{0.2cm} $\frac{(5.0 \times 10^9) \times 0.9}{4 \times 10^9} = 1.125\mbox{ }(s)$ \\
+{\bf P2} \hspace{0.2cm} $\frac{(1.0 \times 10^9) \times 0.75}{3 \times 10^9} = 0.25\mbox{ }(s)$ \\
+\\
+{\bf P1} has a larger clock rate, but its performance is worse than {\bf P2}.
+
+\item[1.12.2]
+$\frac{(1.0 \times 10^9) \times 0.9}{4 \times 10^9} = \frac{Instruction\mbox{ }Count \times 0.75}{3 \times 10^9}$, $Instruction\mbox{ }Count = 0.9 \times 10^9$ \\
+\\
+{\bf P2} can execute  $0.9 \times 10^9$ instructions in the same time that {\bf P1} needs to execute $1.0 \times 10^9$ instructions.
+
+\item[1.12.3]
+$MIPS = \frac{Clock\mbox{ }Rate}{CPI \times 10^6}$ \\
+{\bf P1} \hspace{0.2cm} $\frac{4 \times 10^9}{0.9 \times 10^6} = 4444.44\mbox{ }(MIPS)$ \\
+{\bf P2} \hspace{0.2cm} $\frac{3 \times 10^9}{0.75 \times 10^6} = 4000\mbox{ }(MIPS)$ \\
+\\
+{\bf P1} has a larger MIPS, but its performance is worse than {\bf P2}.
+
+\item[1.12.4]
+$MFLOPS = \frac{No.FP\mbox{ }operations}{execution\mbox{ }time \times 10^6}$ \\
+{\bf P1} \hspace{0.2cm} $\frac{5.0 \times 10^9 \times 40\%}{1.125 \times 10^6} = 1777.78\mbox{ }(MFLOPS)$ \\
+{\bf P2} \hspace{0.2cm} $\frac{1.0 \times 10^9 \times 40\%}{0.25 \times 10^6} = 1600\mbox{ }(MFLOPS)$ \\
+
+\item[1.15]
+$per\mbox{ }processor\mbox{ }execution\mbox{ }time = \frac{100}{processor\mbox{ }num} + 4$ \\
+$speedup$ = $\frac{100}{\frac{100}{processor\mbox{ }num} + 4}$ \\
+$ideal\mbox{ }speedup$ = $\frac{100}{\frac{100}{processor\mbox{ }num}} = processor\mbox{ }num$ \\
+
+{\bf 2 processors}
+\begin{itemize}
+\item $per\mbox{ }processor\mbox{ }execution\mbox{ }time = \frac{100}{2} + 4 = 54$ \\
+\item $speedup = \frac{100}{54} = 1.85$ \\
+\item $ratio = \frac{1.85}{2} = 0.9260$ \\
+\end{itemize}
+
+{\bf 4 processors}
+\begin{itemize}
+\item $per\mbox{ }processor\mbox{ }execution\mbox{ }time = \frac{100}{4} + 4 = 29$ \\
+\item $speedup = \frac{100}{29} = 3.45$ \\
+\item $ratio = \frac{3.45}{4} = 0.8621$ \\
+\end{itemize}
+
+{\bf 8 processors}
+\begin{itemize}
+\item $per\mbox{ }processor\mbox{ }execution\mbox{ }time = \frac{100}{8} + 4 = 16.5$ \\
+\item $speedup = \frac{100}{16.5} = 6.06$ \\
+\item $ratio = \frac{6.06}{8} = 0.7576$ \\
+\end{itemize}
+
+{\bf 16 processors}
+\begin{itemize}
+\item $per\mbox{ }processor\mbox{ }execution\mbox{ }time = \frac{100}{16} + 4 = 10.25$\\
+\item $speedup = \frac{100}{10.25} = 9.76$ \\
+\item $ratio = \frac{9.76}{16} = 0.6098$ \\
+\end{itemize}
+
+{\bf 32 processors}
+\begin{itemize}
+\item $per\mbox{ }processor\mbox{ }execution\mbox{ }time = \frac{100}{32} + 4 = 7.13$ \\
+\item $speedup = \frac{100}{7.13} = 14.04$ \\
+\item $ratio = \frac{14.04}{32} = 0.4386$ \\
+\end{itemize}
+
+{\bf 64 processors}
+\begin{itemize}
+\item $per\mbox{ }processor\mbox{ }execution\mbox{ }time = \frac{100}{64} + 4 = 5.56$ \\
+\item $speedup = \frac{100}{5.56} = 17.98$ \\
+\item $ratio = \frac{17.98}{64} = 0.2809$ \\
+\end{itemize}
+
+{\bf 128 processors}
+\begin{itemize}
+\item $per\mbox{ }processor\mbox{ }execution\mbox{ }time = \frac{100}{128} + 4 = 4.78$ \\
+\item $speedup = \frac{100}{4.78} = 20.92$ \\
+\item $ratio = \frac{20.92}{128} = 0.1634$ \\
+\end{itemize}
+
+\end{itemize}
+\end{document}
